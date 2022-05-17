@@ -1,0 +1,54 @@
+body{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+
+section{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+}
+
+
+.marginBottom{
+  margin-bottom: 2rem;
+}
+
+
+
+.flexStart{
+  align-self: flex-start;
+}
+
+
+
+.flexEnd{
+  align-self: flex-end;
+}
+
+@media print {
+  H1{
+    display: none;
+  }
+
+  #return_btn{
+    display: none;
+  }
+
+  section{
+    width: auto;
+  }
+
+  .marginBottom{
+    margin-bottom: 1.4rem;
+  }
+
+  header{
+    display: none;
+  }
+  
+}
+

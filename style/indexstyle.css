@@ -1,0 +1,106 @@
+body{
+  display: flex;
+  justify-content: center
+}
+
+main{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  border: 1px solid black;
+  width: 60%;
+}
+
+#title{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid black;
+  background-color: #0dcaf0 ;
+}
+
+form{
+  display: flex;
+  flex-direction: column;
+  align-items: center
+}
+
+
+
+button{
+  width: 10rem ;
+}
+
+#containeur{
+  display: flex;
+}
+
+
+
+.card{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 20rem;
+  margin: 0 5rem;
+}
+
+.card > div{
+  display: flex;
+  flex-direction: column;
+
+  margin: 0.5rem 1rem;
+}
+
+
+
+#radio{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+
+}
+
+#radio div{
+  display: flex;
+  flex-direction: row;
+} 
+
+.btnInput{
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 3rem;
+}
+
+.btnInput input{
+  padding: 10px 30px ;
+}
+
+.reset{
+  border: 1px solid #dc3545;
+  border-radius: 5px;
+  background: none;
+  padding: 5px;
+  color: #dc3545;
+}
+
+.reset:hover{
+  cursor: pointer;
+  background: #dc3545;
+  color: white;
+}
+
+.submit{
+  border: 1px solid #198754;
+  border-radius: 5px;
+  background: #198754;
+  padding: 5px;
+  color: white;
+}
+
+.submit:hover{
+  cursor: pointer;
+  background:#126b42;
+}
