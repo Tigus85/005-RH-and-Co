@@ -4,103 +4,48 @@ session_start();
 var_dump($_POST);
 
 
-//fonction de verification de saisie 
-function verifSaisie(string $saisie){
-  if(isset($_POST["submit_btn"]) && !empty($saisie)){
-    $saisie = htmlspecialchars($saisie);
-    
-  } else {
-
-    $saisie = "";
-    
-  }
-  return $saisie;
-}
 //fonction de verification adressse mail
 function sanitizeEmail(string $mail){
 	$email = trim($mail);
 	$email = filter_var($mail, FILTER_VALIDATE_EMAIL);
 	return $mail;
 }
+$today = date("d/m/Y",$_SERVER['REQUEST_TIME']); // retour la date sous format 01/01/2000
+$information = []; // variable qui stock l'ensemble du post 
+
+// verification de saisie users
+foreach($_POST as $key => $value){
+$information[$key] = htmlspecialchars($value);
+}
+var_dump($information);
+
+$_SESSION['information'] = $information; // stock dans la variable $_SESSION
 
 
-// Variables Personnels
+// verifier si l'information dest_civilite
 
-$name = verifSaisie($_POST['name']);  
-$firstname = verifSaisie($_POST['firstname']);
-$address = verifSaisie($_POST['address']);
-$postal_code = verifSaisie($_POST['postal_code']);
-$town = verifSaisie($_POST['town']);
-$telephone = verifSaisie($_POST['telephone']);
-$email = sanitizeEmail($_POST['email']);
-$ma_formation = verifSaisie($_POST['ma_formation']);
+if(empty($information["dest_civilite"])){
+  $information["dest_civilite"] = "";
+}
 
-
-// creation du tableau $emploies
+// gestion des emploies 
 $emploies = [
-  verifSaisie($_POST['emploies1']),
-  verifSaisie($_POST['emploies2']),
-  verifSaisie($_POST['emploies3']),
-  verifSaisie($_POST['emploies4']),
-  verifSaisie($_POST['emploies5'])
-            ];
-
-
-
-rsort($emploies);  // trie du tableau 
-
-$countNoValue = 0; // variables comptable du tableau
-// compte le nombre de champs vide 
-for($i=0 ; $i<count($emploies); $i++) {
-  if ($emploies[$i] === ''){
-    $countNoValue++;
+  ($information["emploies1"]),
+  ($information["emploies2"]),
+  ($information["emploies3"]),
+  ($information["emploies4"]),
+  ($information["emploies5"])
+];
+rsort($emploies);
+$count = 0 ; // variable pour compter le nombre de champs vide dans $emploies
+for($i = 0 ; $i < count($emploies) ; $i++){
+  if(empty($emploies[$i])){
+    
+    $count++;
   }
 }
-// suprime les champs vide 
-if($countNoValue > 0){
-  array_splice($emploies,-$countNoValue);
-} 
-
-
-
-
-// variables Destinataires
-
-$dest_civilite = verifSaisie($_POST['dest_civilite']); 
-$dest_name = verifSaisie($_POST['dest_name']); 
-$dest_firstname = verifSaisie($_POST['dest_firstname']); 
-$dest_raison_sociale = verifSaisie($_POST['dest_raison_sociale']); 
-$dest_adresse = verifSaisie($_POST['dest_adresse']); 
-$dest_postal_code = verifSaisie($_POST['dest_postal_code']); 
-$dest_town = verifSaisie($_POST['dest_town']); 
-$post_vise = verifSaisie($_POST['post_vise']); 
-$ref_offre= verifSaisie($_POST['ref_offre']); 
-$today = date( "d/m/Y" ,$_SERVER['REQUEST_TIME']);
-
-
-
-
-// stockage des variables dans les variables SESSION
-$_SESSION["name"] =  $name ;
-$_SESSION["firstname"] =  $firstname ;
-$_SESSION["address"] =  $address ;
-$_SESSION["postal_code"] =  $postal_code ;
-$_SESSION["town"] =  $town ;
-$_SESSION["telephone"] = $telephone ;
-$_SESSION["email"] = $email ;
-$_SESSION["ma_formation"] =  $ma_formation ;
-$_SESSION["emploies"] =  $emploies ;
-
-$_SESSION["dest_civilite"] =  $dest_civilite ;
-$_SESSION["dest_name"] =  $dest_name ;
-$_SESSION["dest_firstname"] =  $dest_firstname ;
-$_SESSION["dest_raison_sociale"] =  $dest_raison_sociale ;
-$_SESSION["dest_postal_code"] =  $dest_postal_code ;
-$_SESSION["dest_town"] =  $dest_town ;
-$_SESSION["post_vise"] =  $post_vise ;
-$_SESSION["ref_offre"] =  $ref_offre ;
-
-
+array_splice($emploies , -$count);
+sort($emploies);
 
 
 ?>
@@ -118,24 +63,24 @@ $_SESSION["ref_offre"] =  $ref_offre ;
   <h1> Contenu de la lettre : </h1>
   <section>
     <div class="marginBottom flexStart">
-      <div> <?= $name ?> <?= $firstname ?>  </div>
-      <div> <?= $address ?>  </div>
-      <div> <?= $postal_code ?>  / <?= $town ?> </div>
-      <div> <?= $telephone ?>  </div>
-      <div> <?= $email ?> </div>
+      <div> <?= $information["name"] ?> <?= $information["firstname"] ?>  </div>
+      <div> <?= $information["address"] ?>  </div>
+      <div> <?= $information["postal_code"] ?>  / <?= $information["town"] ?> </div>
+      <div> <?= $information["telephone"] ?>  </div>
+      <div> <?= sanitizeEmail($information["email"]) ?> </div>
     </div>
     <div class="marginBottom flexEnd">
-      <div> <?= $dest_civilite ?> <?= $dest_name ?> <?= $dest_firstname ?>  </div>
-      <div> <?= $dest_raison_sociale ?> </div>
-      <div> <?= $dest_adresse ?> </div>
-      <div> <?= $dest_postal_code ?> / <?= $dest_town ?> </div>
+      <div> <?= $information["dest_civilite"] ?> <?= $information["dest_name"] ?> <?= $information["dest_firstname"] ?>  </div>
+      <div> <?= $information["dest_raison_sociale"] ?> </div>
+      <div> <?= $information["dest_adresse"] ?> </div>
+      <div> <?= $information["dest_postal_code"] ?> / <?= $information["dest_town"] ?> </div>
     </div>
-    <div class="marginBottom flexEnd"> Fait à <?= $dest_town ?>  , le <?= $today ?> .  </div>
+    <div class="marginBottom flexEnd"> Fait à <?= $information["dest_town"] ?>  , le <?= $today ?> .  </div>
     <div class="marginBottom flexStart"> PJ : Curriculum Vitae </div>
-    <div class="flexStart"> Objet : Candidature au poste de <?= $post_vise ?> </div>
-    <div class="marginBottom flexStart"> <?= $dest_civilite ?> </div>
-    <p class="flexStart"> Etant actuellement à la recherche d’un emploi, je me permets de vous proposer ma candidature au poste de <?= $post_vise ?>. </p>
-    <p class="flexStart">En effet, mon profil correspond à la description recherchée sur l’offre d’emploi <?= $ref_offre ?>.</p>
+    <div class="flexStart"> Objet : Candidature au poste de <?= $information["post_vise"] ?> </div>
+    <div class="marginBottom flexStart"> <?= $information["dest_civilite"] ?> </div>
+    <p class="flexStart"> Etant actuellement à la recherche d’un emploi, je me permets de vous proposer ma candidature au poste de <?= $information["post_vise"] ?>. </p>
+    <p class="flexStart">En effet, mon profil correspond à la description recherchée sur l’offre d’emploi <?= $information["ref_offre"] ?>.</p>
 
     <?php if(count($emploies) < 2){
 
@@ -144,7 +89,7 @@ $_SESSION["ref_offre"] =  $ref_offre ;
 
     <!-- (Si le candidat possède peu d’expérience professionnelle) :  -->
 
-    <p class="flexStart"> Ma formation en <?= $ma_formation ?> m'a permis d'acquérir de nombreuses compétences parmi celles que vous recherchez. Je possède tous les atouts qui me permettront de réussir dans le rôle que vous voudrez bien me confier. Motivation, rigueur et écoute sont les maîtres mots de mon comportement professionnel. </p>
+    <p class="flexStart"> Ma formation en <?= $information["ma_formation"] ?> m'a permis d'acquérir de nombreuses compétences parmi celles que vous recherchez. Je possède tous les atouts qui me permettront de réussir dans le rôle que vous voudrez bien me confier. Motivation, rigueur et écoute sont les maîtres mots de mon comportement professionnel. </p>
     <?php } else { ?>
     <!-- (Si le candidat possède une expérience significative dans le poste à pourvoir) -->
 
@@ -157,7 +102,7 @@ $_SESSION["ref_offre"] =  $ref_offre ;
     <p class="flexStart">Intégrer votre entreprise, représente pour moi un réel enjeu d’avenir dans lequel mon travail et mon honnêteté pourront s’exprimer pleinement.</p>
     <p class="marginBottom flexStart">Restant à votre disposition pour toute information complémentaire, je suis disponible pour vous rencontrer lors d’un entretien à votre convenance.</p>
 
-    <div class="marginBottom flexStart">Veuillez agréer, <?= $dest_civilite ?>  l’expression de mes sincères salutations.</div>
+    <div class="marginBottom flexStart">Veuillez agréer, <?= $information["dest_civilite"] ?>  l’expression de mes sincères salutations.</div>
 
     <div class="flexStart">Signature</div>
   </section>
