@@ -29,6 +29,32 @@ section{
   align-self: flex-end;
 }
 
+button{
+
+}
+
+button{
+  border: 1px solid #7c670a;
+  border-radius: 5px;
+  background: none;
+  padding: 5px;
+}
+
+a{
+  text-decoration: none;
+  color: #7c670a;
+}
+
+a:hover{
+  color: white;
+}
+
+button:hover{
+  cursor: pointer;
+  background: #7c670a;
+  
+}
+
 @media print {
   H1{
     display: none;

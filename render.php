@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-var_dump($_POST);
+
 
 
 //fonction de verification adressse mail
@@ -17,9 +17,6 @@ $information = []; // variable qui stock l'ensemble du post
 foreach($_POST as $key => $value){
 $information[$key] = htmlspecialchars($value);
 }
-var_dump($information);
-
-$_SESSION['information'] = $information; // stock dans la variable $_SESSION
 
 
 // verifier si l'information dest_civilite
@@ -27,6 +24,11 @@ $_SESSION['information'] = $information; // stock dans la variable $_SESSION
 if(empty($information["dest_civilite"])){
   $information["dest_civilite"] = "";
 }
+
+$_SESSION['information'] = $information; // stock dans la variable $_SESSION
+
+
+
 
 // gestion des emploies 
 $emploies = [
@@ -46,6 +48,7 @@ for($i = 0 ; $i < count($emploies) ; $i++){
 }
 array_splice($emploies , -$count);
 sort($emploies);
+
 
 
 ?>
@@ -106,8 +109,8 @@ sort($emploies);
 
     <div class="flexStart">Signature</div>
   </section>
-  <form action="index.php">
-    <button id="return_btn"> Retour en arriere </button>
-  </form> 
+  
+    <button id="return_btn"> <a href="index.php">Retour en arriere </a> </button>
+
 </body>
 </html>

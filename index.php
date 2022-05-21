@@ -5,7 +5,7 @@ session_start();
 $informations = [];
 
 if(empty($_SESSION)){
-  echo "machin";
+  
   $informations = [
     "name" => "",
     "firstname" => "",
@@ -32,10 +32,11 @@ if(empty($_SESSION)){
   ];
 
 } else {
-  echo "test";
+  
   foreach($_SESSION["information"] as $keyinfo => $information){
     $informations[$keyinfo] = $information;
   }
+  
 }
 
 
@@ -108,29 +109,17 @@ if(empty($_SESSION)){
             <div id="radio">
               <div>
                 <input type="radio" name="dest_civilite" id="mister" value="M"
-                 <?php
-                 if(!empty($informations["dest_civilite"])){
-                   ($informations["dest_civilite"] !== "M") ? "" : "checked" ;
-                 }
-                   ?> >
+                 <?= $informations["dest_civilite"] === "M" ? "checked" : "" ?> >
                 <label for="mister">M</label>
               </div>
               <div>
                 <input type="radio" name="dest_civilite" id="madame" value="Mme" 
-                <?php
-                 if(!empty($informations["dest_civilite"])){
-                   ($informations["dest_civilite"] !== "Mme") ? "" : "checked" ;
-                 }
-                   ?> >
+                <?= $informations["dest_civilite"] === "Mme" ? "checked" : "" ?> >
                 <label for="madame">Mme</label>
               </div>
               <div>
                 <input type="radio" name="dest_civilite" id="miss" value="Mlle" 
-                <?php
-                 if(!empty($informations["dest_civilite"])){
-                   ($informations["dest_civilite"] !== "Mlle") ? "" : "checked" ;
-                 }
-                   ?> >
+                <?= $informations["dest_civilite"] === "Mlle" ? "checked" : "" ?>  >
                 <label for="miss">Mlle</label>
               </div>
             </div>
